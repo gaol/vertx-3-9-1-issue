@@ -1,0 +1,25 @@
+<html>
+
+<head>
+    <title>Vert.x 3.9.1 issue</title>
+</head>
+
+<body>
+<script src="http://cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
+<script src='vertx-eventbus.js'></script>
+
+<script>
+
+var eb = new EventBus('http://localhost:8080/eventbus');
+
+eb.onopen = function() {
+
+ // send a message
+ eb.send('echo', {name: 'tim', age: 587});
+
+}
+
+</script>
+</body>
+
+</html>
