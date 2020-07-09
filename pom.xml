@@ -1,22 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+      <groupId>org.jboss</groupId>
+      <artifactId>jboss-parent</artifactId>
+      <version>36</version>
+    </parent>
     <groupId>salmonb</groupId>
     <artifactId>vertx-3-9-1-issue</artifactId>
     <version>0.1.0-SNAPSHOT</version>
 
     <properties>
 
-        <lib.vertx.version>3.9.1</lib.vertx.version>
+        <lib.vertx.version>3.8.5</lib.vertx.version>
 
         <!-- java version -->
         <java.version>14</java.version>
         <java.level>${java.version}</java.level>
+        <vertx-maven-plugin.version>1.0.18</vertx-maven-plugin.version>
 
         <!-- Applying compiler settings -->
         <maven.compiler.source>${java.level}</maven.compiler.source>
         <maven.compiler.target>${java.level}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <vertx.verticle>issue.IssueVerticle</vertx.verticle>
 
     </properties>
 
@@ -41,5 +48,34 @@
         </dependency>
 
     </dependencies>
+
+  <profiles>
+    <profile>
+      <id>app</id>
+      <build>
+        <finalName>${project.artifactId}-app</finalName>
+        <plugins>
+          <plugin>
+            <groupId>io.reactiverse</groupId>
+            <artifactId>vertx-maven-plugin</artifactId>
+            <version>${vertx-maven-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>vmp</id>
+                <goals>
+                  <goal>initialize</goal>
+                  <goal>package</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <redeploy>false</redeploy>
+              <verticle>${vertx.verticle}</verticle>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
 </project>
