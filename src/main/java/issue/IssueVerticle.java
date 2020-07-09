@@ -44,11 +44,6 @@ public class IssueVerticle extends AbstractVerticle {
 
         // Serving static files under the webroot folder
         router.route("/*").handler(StaticHandler.create());
-        router.route().handler(rc -> {
-            final String absoluteURI = rc.request().absoluteURI();
-            System.out.println("Abs path: " + absoluteURI);
-            rc.next();
-        });
 
         // Binding the web port
         server.requestHandler(router).listen();
