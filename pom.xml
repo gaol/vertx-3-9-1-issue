@@ -12,7 +12,7 @@
 
     <properties>
 
-        <lib.vertx.version>3.8.5</lib.vertx.version>
+        <lib.vertx.version>3.9.1</lib.vertx.version>
 
         <!-- java version -->
         <java.version>14</java.version>
