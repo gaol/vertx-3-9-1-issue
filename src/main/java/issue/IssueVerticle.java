@@ -8,7 +8,7 @@ import io.vertx.ext.bridge.PermittedOptions;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.LoggerHandler;
 import io.vertx.ext.web.handler.StaticHandler;
-import io.vertx.ext.web.handler.sockjs.SockJSBridgeOptions;
+import io.vertx.ext.web.handler.sockjs.BridgeOptions;
 import io.vertx.ext.web.handler.sockjs.SockJSHandler;
 
 /**
@@ -34,7 +34,7 @@ public class IssueVerticle extends AbstractVerticle {
 
         // SockJS event bus bridge
         router.mountSubRouter("/eventbus", SockJSHandler.create(vertx)
-                .bridge(new SockJSBridgeOptions()
+                .bridge(new BridgeOptions()
                                 .addInboundPermitted(new PermittedOptions(new JsonObject()))
                                 .addOutboundPermitted(new PermittedOptions(new JsonObject()))
                 )
@@ -44,6 +44,11 @@ public class IssueVerticle extends AbstractVerticle {
 
         // Serving static files under the webroot folder
         router.route("/*").handler(StaticHandler.create());
+        router.route().handler(rc -> {
+            final String absoluteURI = rc.request().absoluteURI();
+            System.out.println("Abs path: " + absoluteURI);
+            rc.next();
+        });
 
         // Binding the web port
         server.requestHandler(router).listen();
